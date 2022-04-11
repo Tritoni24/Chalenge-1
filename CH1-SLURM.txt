@@ -1,0 +1,20 @@
+#!/bin/bash -l              
+#SBATCH --partition=cuda.q
+#SBATCH -w aolin23
+#SBATCH --exclusive
+
+# print information for documentation
+echo "Compile" $1 "for CPU execution"
+
+# install gcc compiler
+module load gcc/10.2.0
+echo
+
+# compile for CPU
+gcc -O3 CH1.c -o CH1
+
+# execute and measure total time and general performance counters
+perf stat -e cycles,instructions CH1
+
+#perf record CH1
+echo
